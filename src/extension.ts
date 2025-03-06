@@ -2,8 +2,17 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 import { createGenerator } from "ts-json-schema-generator";
+import { generateMockData } from './genCode';
 
 export function activate(context: vscode.ExtensionContext) {
+
+  // 注册右键菜单
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.generateFakerMock', (uri) => {
+      generateMockData(context, uri);
+    })
+  );
+
   let disposable = vscode.commands.registerCommand(
     "extension.generateJsonSchema",
     async () => {

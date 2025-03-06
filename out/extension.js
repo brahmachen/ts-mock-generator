@@ -37,7 +37,12 @@ const vscode = __importStar(require("vscode"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const ts_json_schema_generator_1 = require("ts-json-schema-generator");
+const genCode_1 = require("./genCode");
 function activate(context) {
+    // 注册右键菜单
+    context.subscriptions.push(vscode.commands.registerCommand('extension.generateFakerMock', (uri) => {
+        (0, genCode_1.generateMockData)(context, uri);
+    }));
     let disposable = vscode.commands.registerCommand("extension.generateJsonSchema", () => __awaiter(this, void 0, void 0, function* () {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {

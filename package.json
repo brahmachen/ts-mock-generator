@@ -12,6 +12,10 @@
       {
         "command": "extension.generateJsonSchema",
         "title": "Generate JSON Schema"
+      },
+      {
+        "command": "extension.generateFakerMock",
+        "title": "Generate Faker Mock Code"
       }
     ],
     "menus": {
@@ -20,8 +24,28 @@
           "command": "extension.generateJsonSchema",
           "when": "editorLangId == typescript",
           "group": "navigation"
+        },
+        {
+          "command": "extension.generateFakerMock",
+          "when": "resourceFilename =~ /.*\\.schema\\.json$/",
+          "group": "navigation"
         }
-      ]
+      ],
+      "explorer/context": []
+    },
+    "configuration": {
+      "title": "DeepSeek",
+      "properties": {
+        "deepseek.apiKey": {
+          "type": "string",
+          "description": "DeepSeek API密钥"
+        },
+        "deepseek.apiUrl": {
+          "type": "string",
+          "default": "https://api.deepseek.com/v1",
+          "description": "API端点地址"
+        }
+      }
     }
   },
   "description": "",
@@ -34,11 +58,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "openai": "^4.86.2",
     "ts-json-schema-generator": "^2.3.0"
   },
   "devDependencies": {
-    "@types/vscode": "^1.98.0",
     "@types/node": "^22.13.9",
+    "@types/vscode": "^1.98.0",
     "typescript": "^4.9.5"
   }
 }
