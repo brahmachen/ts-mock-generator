@@ -1,0 +1,44 @@
+{
+  "name": "schema-generator",
+  "displayName": "JSON Schema Generator",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.generateJsonSchema",
+        "title": "Generate JSON Schema"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "extension.generateJsonSchema",
+          "when": "editorLangId == typescript",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "description": "",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-json-schema-generator": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.98.0",
+    "@types/node": "^22.13.9",
+    "typescript": "^4.9.5"
+  }
+}
