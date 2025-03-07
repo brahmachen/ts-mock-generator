@@ -58,6 +58,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.5.1",
     "openai": "^4.86.2",
     "ts-json-schema-generator": "^2.3.0"
   },

@@ -41,6 +41,8 @@ const generateJsonSchema = async () => {
         type: typeName,
       };
 
+      console.log("Generating schema for", typeName, config);
+
       const generator = createGenerator(config);
       const schema = generator.createSchema(typeName);
 
@@ -77,7 +79,7 @@ function findTargetSymbol(
   position: vscode.Position
 ): vscode.DocumentSymbol | null {
   for (const symbol of symbols) {
-    console.log(symbol.kind, vscode.SymbolKind[symbol.kind], symbol.name);
+    // console.log(symbol.kind, vscode.SymbolKind[symbol.kind], symbol.name);
     if (
       (symbol.kind === vscode.SymbolKind.Interface ||
         symbol.kind === vscode.SymbolKind.Variable) &&
