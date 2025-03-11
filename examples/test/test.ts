@@ -45,6 +45,7 @@ export type TGradeRes = {
     // 级别列表
     thresholdValue: number; // 阈值
     gradeIcon: string; // 图标
+    /** 级别code：BASECARDS(1,"白银"), SILVERCARD(2,"黄金"), GOLDCARD(3,"白金"), PLATINUMCARD(5,"钻石"), DIAMOND(6,"黑金"); */
     gradeCode: number; // 级别code：BASECARDS(1,"白银"), SILVERCARD(2,"黄金"), GOLDCARD(3,"白金"), PLATINUMCARD(5,"钻石"), DIAMOND(6,"黑金");
     gradeName: string; // 级别名称
     gradeRightDecs: string; // 级别权益描述
@@ -58,6 +59,7 @@ export type TGradeRes = {
 };
 
 export type TExchange = {
+  /** 可兑换会员级别列表 */
   exchangeMemberLevel: number[]; // 可兑换会员级别列表
   exchangeImage: string; // 商品图片
   exchangeLabel: string; // 标签

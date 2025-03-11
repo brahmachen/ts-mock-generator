@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
-import { createGenerator } from "ts-json-schema-generator";
+import { createGenerator, Config } from "ts-json-schema-generator";
 
 const generateJsonSchema = async () => {
   {
@@ -35,12 +35,16 @@ const generateJsonSchema = async () => {
         `${typeName}.schema.json`
       );
 
-      const config = {
+      const config: Config = {
         path: filePath,
         tsconfig: findTsConfig(path.dirname(filePath)),
         type: typeName,
         skipTypeCheck : true , // 禁用所有类型检查 
-        skipLibCheck : true, // 忽略声明文件错误
+        // skipLibCheck: true, // 忽略声明文件错误
+        expose: "export",
+        topRef: true,
+        jsDoc: "extended",
+        markdownDescription: true,
       };
 
       console.log("Generating schema for", typeName, config);
