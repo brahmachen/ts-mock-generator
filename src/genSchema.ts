@@ -1,6 +1,6 @@
-import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as vscode from "vscode";
+import * as fs from "fs";
+import * as path from "path";
 import { createGenerator } from "ts-json-schema-generator";
 
 const generateJsonSchema = async () => {
@@ -39,6 +39,8 @@ const generateJsonSchema = async () => {
         path: filePath,
         tsconfig: findTsConfig(path.dirname(filePath)),
         type: typeName,
+        skipTypeCheck : true , // 禁用所有类型检查 
+        skipLibCheck : true, // 忽略声明文件错误
       };
 
       console.log("Generating schema for", typeName, config);
@@ -47,24 +49,32 @@ const generateJsonSchema = async () => {
       const schema = generator.createSchema(typeName);
 
       fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
-      vscode.window.showInformationMessage(
-        `Schema saved to ${outputPath}`
-      );
+      vscode.window.showInformationMessage(`Schema saved to ${outputPath}`);
     } catch (error) {
-      vscode.window.showErrorMessage(
-        `Error generating schema: ${error}`
-      );
+      vscode.window.showErrorMessage(`Error generating schema: ${error}`);
       console.error(error);
+      if (error instanceof Error) {
+        const diagnostic = (error as any).diagnostic;
+        if (diagnostic) {
+          console.log({
+            messages: diagnostic.relatedInformation.map(
+              (item: any) => item.messageText
+            ),
+          });
+        }
+      }
     }
   }
-
-}
-
+};
 
 function findTsConfig(startPath: string): string | undefined {
   let dir = startPath;
   while (dir !== path.parse(dir).root) {
     const tsconfigPath = path.join(dir, "tsconfig.json");
+    const tsconfigAppPath = path.join(dir, "tsconfig.app.json");
+    if (fs.existsSync(tsconfigAppPath)) {
+      return tsconfigAppPath;
+    }
     if (fs.existsSync(tsconfigPath)) {
       return tsconfigPath;
     }
@@ -72,7 +82,6 @@ function findTsConfig(startPath: string): string | undefined {
   }
   return undefined;
 }
-
 
 function findTargetSymbol(
   symbols: vscode.DocumentSymbol[],
@@ -97,8 +106,4 @@ function findTargetSymbol(
   return null;
 }
 
-
-
-export {
-  generateJsonSchema
-}
+export { generateJsonSchema };

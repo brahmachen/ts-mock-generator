@@ -6,7 +6,7 @@
     "vscode": "^1.50.0"
   },
   "activationEvents": [],
-  "main": "./out/extension.js",
+  "main": "./out/src/extension.js",
   "contributes": {
     "commands": [
       {

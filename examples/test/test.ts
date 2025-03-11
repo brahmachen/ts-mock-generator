@@ -40,7 +40,7 @@ export type TGradeRight = {
   gradeRightExplain: string; // 权益说明
 };
 
-type TGradeRes = {
+export type TGradeRes = {
   memberGrade: {
     // 级别列表
     thresholdValue: number; // 阈值
