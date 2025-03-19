@@ -44,7 +44,7 @@ const generateJsonSchema = async () => {
         expose: "export",
         topRef: true,
         jsDoc: "extended",
-        markdownDescription: true,
+        markdownDescription: false,
       };
 
       console.log("Generating schema for", typeName, config);

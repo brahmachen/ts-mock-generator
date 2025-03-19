@@ -24,6 +24,7 @@ export async function generateMockData(
   uri: vscode.Uri
 ) {
   // 初始化日志路径
+  // @ts-ignore
   const logDir = context.globalStorageUri.fsPath;
   const logPath = path.join(logDir, "deepseek-mock-generator.log");
 
