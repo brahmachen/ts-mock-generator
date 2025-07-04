@@ -1,5 +1,5 @@
-// import { TGrowthValue } from "./anther";
-import { TGrowthValue } from "@/examples/test-import/anther";
+import { TGrowthValue } from "./anther";
+// import { TGrowthValue } from "@/examples/test-import/anther";
 
 export type TGrowthValueDetailListRes = {
   totalCount: string; // 总成长值

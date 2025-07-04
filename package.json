@@ -5,7 +5,9 @@
   "engines": {
     "vscode": "^1.50.0"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:typescript"
+  ],
   "main": "./out/src/extension.js",
   "contributes": {
     "commands": [
@@ -16,6 +18,18 @@
       {
         "command": "extension.generateFakerMock",
         "title": "Generate Faker Mock Code"
+      },
+      {
+        "command": "extension.generateJsonMock",
+        "title": "Generate Mock JSON"
+      },
+      {
+        "command": "extension.generateFakerMockFromTs",
+        "title": "Generate Faker Mock Code (Directly)"
+      },
+      {
+        "command": "extension.generateJsonMockFromTs",
+        "title": "Generate Mock JSON (Directly)"
       }
     ],
     "menus": {
@@ -23,12 +37,27 @@
         {
           "command": "extension.generateJsonSchema",
           "when": "editorLangId == typescript",
-          "group": "navigation"
+          "group": "generation@1"
+        },
+        {
+          "command": "extension.generateFakerMockFromTs",
+          "when": "editorLangId == typescript",
+          "group": "generation@2"
+        },
+        {
+          "command": "extension.generateJsonMockFromTs",
+          "when": "editorLangId == typescript",
+          "group": "generation@3"
         },
         {
           "command": "extension.generateFakerMock",
           "when": "resourceFilename =~ /.*\\.schema\\.json$/",
-          "group": "navigation"
+          "group": "generation_from_file"
+        },
+        {
+          "command": "extension.generateJsonMock",
+          "when": "resourceFilename =~ /.*\\.schema\\.json$/",
+          "group": "generation_from_file"
         }
       ],
       "explorer/context": []

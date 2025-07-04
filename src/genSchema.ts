@@ -1,74 +1,82 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
-import { createGenerator, Config } from "ts-json-schema-generator";
+import { createGenerator, Config, Schema } from "ts-json-schema-generator";
 
-const generateJsonSchema = async () => {
-  {
+async function generateSchemaInMemory(): Promise<{ schema: Schema; typeName: string; filePath: string } | null> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-      vscode.window.showErrorMessage("No active editor");
-      return;
+        vscode.window.showErrorMessage("No active editor");
+        return null;
     }
 
     const document = editor.document;
     const position = editor.selection.active;
 
     try {
-      const symbols: any = await vscode.commands.executeCommand(
-        "vscode.executeDocumentSymbolProvider",
-        document.uri
-      );
-
-      const targetSymbol = findTargetSymbol(symbols, position);
-      if (!targetSymbol) {
-        vscode.window.showErrorMessage(
-          "No type or interface found at this position"
+        const symbols: any = await vscode.commands.executeCommand(
+            "vscode.executeDocumentSymbolProvider",
+            document.uri
         );
-        return;
-      }
 
-      const typeName = targetSymbol.name;
-      const filePath = document.fileName;
-      const outputPath = path.join(
-        path.dirname(filePath),
-        `${typeName}.schema.json`
-      );
-
-      const config: Config = {
-        path: filePath,
-        tsconfig: findTsConfig(path.dirname(filePath)),
-        type: typeName,
-        skipTypeCheck : true , // 禁用所有类型检查 
-        // skipLibCheck: true, // 忽略声明文件错误
-        expose: "export",
-        topRef: true,
-        jsDoc: "extended",
-        markdownDescription: false,
-      };
-
-      console.log("Generating schema for", typeName, config);
-
-      const generator = createGenerator(config);
-      const schema = generator.createSchema(typeName);
-
-      fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
-      vscode.window.showInformationMessage(`Schema saved to ${outputPath}`);
-    } catch (error) {
-      vscode.window.showErrorMessage(`Error generating schema: ${error}`);
-      console.error(error);
-      if (error instanceof Error) {
-        const diagnostic = (error as any).diagnostic;
-        if (diagnostic) {
-          console.log({
-            messages: diagnostic.relatedInformation.map(
-              (item: any) => item.messageText
-            ),
-          });
+        const targetSymbol = findTargetSymbol(symbols, position);
+        if (!targetSymbol) {
+            vscode.window.showErrorMessage(
+                "No type or interface found at this position"
+            );
+            return null;
         }
-      }
+
+        const typeName = targetSymbol.name;
+        const filePath = document.fileName;
+
+        const config: Config = {
+            path: filePath,
+            tsconfig: findTsConfig(path.dirname(filePath)),
+            type: typeName,
+            skipTypeCheck: true, // 禁用所有类型检查
+            expose: "export",
+            topRef: true,
+            jsDoc: "extended",
+            markdownDescription: false,
+        };
+
+        console.log("Generating schema in-memory for", typeName);
+
+        const generator = createGenerator(config);
+        const schema = generator.createSchema(typeName);
+
+        return { schema, typeName, filePath };
+    } catch (error) {
+        vscode.window.showErrorMessage(`Error generating schema: ${error}`);
+        console.error(error);
+        if (error instanceof Error) {
+            const diagnostic = (error as any).diagnostic;
+            if (diagnostic) {
+                console.log({
+                    messages: diagnostic.relatedInformation.map(
+                        (item: any) => item.messageText
+                    ),
+                });
+            }
+        }
+        return null;
     }
-  }
+}
+
+const generateJsonSchema = async () => {
+    const result = await generateSchemaInMemory();
+
+    if (result) {
+        const { schema, typeName, filePath } = result;
+        const outputPath = path.join(
+            path.dirname(filePath),
+            `${typeName}.schema.json`
+        );
+
+        fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
+        vscode.window.showInformationMessage(`Schema saved to ${outputPath}`);
+    }
 };
 
 function findTsConfig(startPath: string): string | undefined {
@@ -92,7 +100,6 @@ function findTargetSymbol(
   position: vscode.Position
 ): vscode.DocumentSymbol | null {
   for (const symbol of symbols) {
-    // console.log(symbol.kind, vscode.SymbolKind[symbol.kind], symbol.name);
     if (
       (symbol.kind === vscode.SymbolKind.Interface ||
         symbol.kind === vscode.SymbolKind.Variable) &&
@@ -110,4 +117,4 @@ function findTargetSymbol(
   return null;
 }
 
-export { generateJsonSchema };
+export { generateJsonSchema, generateSchemaInMemory };

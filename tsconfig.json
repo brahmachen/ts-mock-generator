@@ -5,7 +5,8 @@
     "module": "commonjs",
     "target": "ES6",
     "types": ["node"],
-    "outDir": "out",
+    "outDir": "out/src",
+    "rootDir": "src",
     "lib": [
       "ES6"
     ],
