@@ -14,6 +14,7 @@ const systemPrompt = `你是一个专业的JSON数据生成专家，你熟知 @f
 5. 不要使用markdown格式，直接返回代码字符串
 6. 绝对不要使用\`\`\`代码块包裹返回内容
 7. 严格按照系统提示的ts文档进行生成，不要自己臆想不存在的api
+8. 在文件的最后，请加上对主要生成函数的调用，并用JSON.stringify美化后输出到console.log，方便用户直接调试，例如: console.log(JSON.stringify(generateData(), null, 2));
 
 你熟知 @faker-js/faker 的ts的API文档如下：
     
