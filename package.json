@@ -29,6 +29,10 @@
       {
         "command": "extension.generateJsonMockFromTs",
         "title": "Generate Mock JSON (Directly)"
+      },
+      {
+        "command": "extension.runMockJs",
+        "title": "Run Mock JS"
       }
     ],
     "menus": {
@@ -57,6 +61,11 @@
           "command": "extension.generateJsonMock",
           "when": "resourceFilename =~ /.*\\.schema\\.json$/",
           "group": "generation_from_file"
+        },
+        {
+          "command": "extension.runMockJs",
+          "when": "resourceFilename =~ /.*\\.generated\\.mock\\.js$/",
+          "group": "run_mock_js"
         }
       ],
       "explorer/context": []

@@ -6,6 +6,7 @@ import {
     generateJsonMockFromSchema
 } from './genCode';
 import { generateJsonSchema, generateSchemaInMemory } from "./genSchema";
+import { runMockJs } from "./runCode";
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -50,6 +51,14 @@ export function activate(context: vscode.ExtensionContext) {
             if (result) {
                 generateJsonMockFromSchema(context, result.schema, result.typeName, result.filePath);
             }
+        }
+    ));
+
+    // 运行生成的 mock.js 文件
+    context.subscriptions.push(vscode.commands.registerCommand(
+        'extension.runMockJs',
+        (uri: vscode.Uri) => {
+            runMockJs(context, uri);
         }
     ));
 
