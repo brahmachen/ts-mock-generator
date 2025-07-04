@@ -22,153 +22,210 @@ function logToFile(
 }
 
 async function generateFakerMockFromSchema(
-    context: vscode.ExtensionContext,
-    schema: Schema,
-    typeName: string,
-    filePath: string
+  context: vscode.ExtensionContext,
+  schema: Schema,
+  typeName: string,
+  filePath: string
 ) {
-    const logDir = context.globalStoragePath;
-    if (!fs.existsSync(logDir)) {
-        fs.mkdirSync(logDir, { recursive: true });
+  const logDir = context.globalStoragePath;
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+  const logPath = path.join(logDir, "deepseek-mock-generator.log");
+
+  try {
+    const config = vscode.workspace.getConfiguration("deepseek");
+    const apiKey = config.get<string>("apiKey");
+
+    if (!apiKey) {
+      vscode.window.showErrorMessage(
+        "DeepSeek API key is not configured. Please set it in the settings."
+      );
+      return;
     }
-    const logPath = path.join(logDir, "deepseek-mock-generator.log");
 
-    try {
-        vscode.window.withProgress(
-            {
-                location: vscode.ProgressLocation.Notification,
-                title: "Generating Faker Mock Code...",
-                cancellable: false,
-            },
-            async () => {
-                const finalPrompt = prompts.userPrompt.replace(
-                    "{SCHEMA_CONTENT}",
-                    JSON.stringify(schema, null, 2)
-                );
-
-                const config = vscode.workspace.getConfiguration("deepseek");
-                const apiKey = config.get<string>("apiKey");
-                const apiBase = config.get<string>("apiUrl", "https://api.deepseek.com/v1");
-
-                const openai = new OpenAI({ apiKey, baseURL: apiBase });
-
-                const requestParams = {
-                    model: "deepseek-chat",
-                    messages: [
-                        { role: "system", content: prompts.systemPrompt },
-                        { role: "user", content: finalPrompt },
-                    ],
-                    temperature: 0.3,
-                };
-
-                const response = await openai.chat.completions.create(requestParams as any);
-                let generatedContent = response.choices[0].message.content || "";
-                generatedContent = generatedContent.replace(/```(?:javascript|js)?\n?|\n?```/g, '');
-
-                const originalFileName = path.basename(filePath, path.extname(filePath));
-                const targetPath = path.join(
-                    path.dirname(filePath),
-                    `${originalFileName}.${typeName}.mock.js`
-                );
-
-                fs.writeFileSync(targetPath, generatedContent);
-                logToFile(logPath, `Mock data saved to: ${targetPath}`);
-                vscode.window.showInformationMessage(`Mock data generated successfully ➜ ${path.basename(targetPath)}`);
-            }
+    vscode.window.withProgress(
+      {
+        location: vscode.ProgressLocation.Notification,
+        title: "Generating Faker Mock Code...",
+        cancellable: false,
+      },
+      async () => {
+        const finalPrompt = prompts.userPrompt.replace(
+          "{SCHEMA_CONTENT}",
+          JSON.stringify(schema, null, 2)
         );
-    } catch (error) {
-        const errorMessage = error instanceof Error ? error.stack || error.message : JSON.stringify(error);
-        logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
-        vscode.window.showErrorMessage(`Generation failed: ${error instanceof Error ? error.message : "Unknown error"}`);
-    }
+
+        const apiBase = config.get<string>(
+          "apiUrl",
+          "https://api.deepseek.com/v1"
+        );
+        const model = config.get<string>("model", "deepseek-chat");
+        const temperature = config.get<number>("temperature", 0.3);
+
+        const openai = new OpenAI({ apiKey, baseURL: apiBase });
+
+        const requestParams = {
+          model: model,
+          messages: [
+            { role: "system", content: prompts.systemPrompt },
+            { role: "user", content: finalPrompt },
+          ],
+          temperature: temperature,
+        };
+
+        const response = await openai.chat.completions.create(
+          requestParams as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming
+        );
+        let generatedContent = response.choices[0].message.content || "";
+        generatedContent = generatedContent.replace(
+          /```(?:javascript|js)?\n?|\n?```/g,
+          ""
+        );
+
+        const originalFileName = path.basename(
+          filePath,
+          path.extname(filePath)
+        );
+        const targetPath = path.join(
+          path.dirname(filePath),
+          `${originalFileName}.${typeName}.mock.js`
+        );
+
+        fs.writeFileSync(targetPath, generatedContent);
+        logToFile(logPath, `Mock data saved to: ${targetPath}`);
+        vscode.window.showInformationMessage(
+          `Mock data generated successfully ➜ ${path.basename(targetPath)}`
+        );
+      }
+    );
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? error.stack || error.message
+        : JSON.stringify(error);
+    logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
+    vscode.window.showErrorMessage(
+      `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
 }
 
 async function generateJsonMockFromSchema(
-    context: vscode.ExtensionContext,
-    schema: Schema,
-    typeName: string,
-    filePath: string
+  context: vscode.ExtensionContext,
+  schema: Schema,
+  typeName: string,
+  filePath: string
 ) {
-    const logDir = context.globalStoragePath;
-    if (!fs.existsSync(logDir)) {
-        fs.mkdirSync(logDir, { recursive: true });
+  const logDir = context.globalStoragePath;
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+  const logPath = path.join(logDir, "deepseek-mock-generator.log");
+
+  try {
+    const config = vscode.workspace.getConfiguration("deepseek");
+    const apiKey = config.get<string>("apiKey");
+
+    if (!apiKey) {
+      vscode.window.showErrorMessage(
+        "DeepSeek API key is not configured. Please set it in the settings."
+      );
+      return;
     }
-    const logPath = path.join(logDir, "deepseek-mock-generator.log");
 
-    try {
-        vscode.window.withProgress(
-            {
-                location: vscode.ProgressLocation.Notification,
-                title: "Generating Mock JSON...",
-                cancellable: false,
-            },
-            async () => {
-                const finalPrompt = jsonPrompts.userPrompt.replace(
-                    "{SCHEMA_CONTENT}",
-                    JSON.stringify(schema, null, 2)
-                );
-
-                const config = vscode.workspace.getConfiguration("deepseek");
-                const apiKey = config.get<string>("apiKey");
-                const apiBase = config.get<string>("apiUrl", "https://api.deepseek.com/v1");
-
-                const openai = new OpenAI({ apiKey, baseURL: apiBase });
-
-                const requestParams = {
-                    model: "deepseek-chat",
-                    messages: [
-                        { role: "system", content: jsonPrompts.systemPrompt },
-                        { role: "user", content: finalPrompt },
-                    ],
-                    temperature: 0.3,
-                };
-
-                const response = await openai.chat.completions.create(requestParams as any);
-                let generatedContent = response.choices[0].message.content || "{}";
-
-                const originalFileName = path.basename(filePath, path.extname(filePath));
-                const targetPath = path.join(
-                    path.dirname(filePath),
-                    `${originalFileName}.${typeName}.mock.json`
-                );
-
-                try {
-                    const parsedJson = JSON.parse(generatedContent);
-                    fs.writeFileSync(targetPath, JSON.stringify(parsedJson, null, 2));
-                } catch (e) {
-                    fs.writeFileSync(targetPath, generatedContent);
-                    logToFile(logPath, `Failed to parse generated JSON content. Saved as raw string. Error: ${e}`, "ERROR");
-                }
-
-                logToFile(logPath, `Mock JSON saved to: ${targetPath}`);
-                vscode.window.showInformationMessage(`Mock JSON saved successfully ➜ ${path.basename(targetPath)}`);
-            }
+    vscode.window.withProgress(
+      {
+        location: vscode.ProgressLocation.Notification,
+        title: "Generating Mock JSON...",
+        cancellable: false,
+      },
+      async () => {
+        const finalPrompt = jsonPrompts.userPrompt.replace(
+          "{SCHEMA_CONTENT}",
+          JSON.stringify(schema, null, 2)
         );
-    } catch (error) {
-        const errorMessage = error instanceof Error ? error.stack || error.message : JSON.stringify(error);
-        logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
-        vscode.window.showErrorMessage(`Generation failed: ${error instanceof Error ? error.message : "Unknown error"}`);
-    }
+
+        const apiBase = config.get<string>(
+          "apiUrl",
+          "https://api.deepseek.com/v1"
+        );
+        const model = config.get<string>("model", "deepseek-chat");
+        const temperature = config.get<number>("temperature", 0.3);
+
+        const openai = new OpenAI({ apiKey, baseURL: apiBase });
+
+        const requestParams = {
+          model: model,
+          messages: [
+            { role: "system", content: jsonPrompts.systemPrompt },
+            { role: "user", content: finalPrompt },
+          ],
+          temperature: temperature,
+        };
+
+        const response = await openai.chat.completions.create(
+          requestParams as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming
+        );
+        const generatedContent = response.choices[0].message.content || "{}";
+
+        const originalFileName = path.basename(
+          filePath,
+          path.extname(filePath)
+        );
+        const targetPath = path.join(
+          path.dirname(filePath),
+          `${originalFileName}.${typeName}.mock.json`
+        );
+
+        try {
+          const parsedJson = JSON.parse(generatedContent);
+          fs.writeFileSync(targetPath, JSON.stringify(parsedJson, null, 2));
+        } catch (e) {
+          fs.writeFileSync(targetPath, generatedContent);
+          logToFile(
+            logPath,
+            `Failed to parse generated JSON content. Saved as raw string. Error: ${e}`,
+            "ERROR"
+          );
+        }
+
+        logToFile(logPath, `Mock JSON saved to: ${targetPath}`);
+        vscode.window.showInformationMessage(
+          `Mock JSON saved successfully ➜ ${path.basename(targetPath)}`
+        );
+      }
+    );
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? error.stack || error.message
+        : JSON.stringify(error);
+    logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
+    vscode.window.showErrorMessage(
+      `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
 }
 
 export async function generateMockData(
   context: vscode.ExtensionContext,
   uri: vscode.Uri
 ) {
-    const schemaContent = fs.readFileSync(uri.fsPath, "utf-8");
-    const schema = JSON.parse(schemaContent);
-    const typeName = path.basename(uri.fsPath, ".schema.json");
-    await generateFakerMockFromSchema(context, schema, typeName, uri.fsPath);
+  const schemaContent = fs.readFileSync(uri.fsPath, "utf-8");
+  const schema = JSON.parse(schemaContent);
+  const typeName = path.basename(uri.fsPath, ".schema.json");
+  await generateFakerMockFromSchema(context, schema, typeName, uri.fsPath);
 }
 
 export async function generateMockDataJson(
   context: vscode.ExtensionContext,
   uri: vscode.Uri
 ) {
-    const schemaContent = fs.readFileSync(uri.fsPath, "utf-8");
-    const schema = JSON.parse(schemaContent);
-    const typeName = path.basename(uri.fsPath, ".schema.json");
-    await generateJsonMockFromSchema(context, schema, typeName, uri.fsPath);
+  const schemaContent = fs.readFileSync(uri.fsPath, "utf-8");
+  const schema = JSON.parse(schemaContent);
+  const typeName = path.basename(uri.fsPath, ".schema.json");
+  await generateJsonMockFromSchema(context, schema, typeName, uri.fsPath);
 }
 
 export { generateFakerMockFromSchema, generateJsonMockFromSchema };

@@ -3,80 +3,94 @@ import * as fs from "fs";
 import * as path from "path";
 import { createGenerator, Config, Schema } from "ts-json-schema-generator";
 
-async function generateSchemaInMemory(): Promise<{ schema: Schema; typeName: string; filePath: string } | null> {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        vscode.window.showErrorMessage("No active editor");
-        return null;
+async function generateSchemaInMemory(): Promise<{
+  schema: Schema;
+  typeName: string;
+  filePath: string;
+} | null> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    vscode.window.showErrorMessage("No active editor");
+    return null;
+  }
+
+  const document = editor.document;
+  const position = editor.selection.active;
+
+  try {
+    const symbols: vscode.DocumentSymbol[] | undefined =
+      await vscode.commands.executeCommand(
+        "vscode.executeDocumentSymbolProvider",
+        document.uri
+      );
+
+    if (!symbols) {
+      vscode.window.showErrorMessage("Could not retrieve document symbols.");
+      return null;
     }
 
-    const document = editor.document;
-    const position = editor.selection.active;
-
-    try {
-        const symbols: any = await vscode.commands.executeCommand(
-            "vscode.executeDocumentSymbolProvider",
-            document.uri
-        );
-
-        const targetSymbol = findTargetSymbol(symbols, position);
-        if (!targetSymbol) {
-            vscode.window.showErrorMessage(
-                "No type or interface found at this position"
-            );
-            return null;
-        }
-
-        const typeName = targetSymbol.name;
-        const filePath = document.fileName;
-
-        const config: Config = {
-            path: filePath,
-            tsconfig: findTsConfig(path.dirname(filePath)),
-            type: typeName,
-            skipTypeCheck: true, // 禁用所有类型检查
-            expose: "export",
-            topRef: true,
-            jsDoc: "extended",
-            markdownDescription: false,
-        };
-
-        console.log("Generating schema in-memory for", typeName);
-
-        const generator = createGenerator(config);
-        const schema = generator.createSchema(typeName);
-
-        return { schema, typeName, filePath };
-    } catch (error) {
-        vscode.window.showErrorMessage(`Error generating schema: ${error}`);
-        console.error(error);
-        if (error instanceof Error) {
-            const diagnostic = (error as any).diagnostic;
-            if (diagnostic) {
-                console.log({
-                    messages: diagnostic.relatedInformation.map(
-                        (item: any) => item.messageText
-                    ),
-                });
-            }
-        }
-        return null;
+    const targetSymbol = findTargetSymbol(symbols, position);
+    if (!targetSymbol) {
+      vscode.window.showErrorMessage(
+        "No type or interface found at this position"
+      );
+      return null;
     }
+
+    const typeName = targetSymbol.name;
+    const filePath = document.fileName;
+
+    const config: Config = {
+      path: filePath,
+      tsconfig: findTsConfig(path.dirname(filePath)),
+      type: typeName,
+      skipTypeCheck: true, // 禁用所有类型检查
+      expose: "export",
+      topRef: true,
+      jsDoc: "extended",
+      markdownDescription: false,
+    };
+
+    console.log("Generating schema in-memory for", typeName);
+
+    const generator = createGenerator(config);
+    const schema = generator.createSchema(typeName);
+
+    return { schema, typeName, filePath };
+  } catch (error) {
+    vscode.window.showErrorMessage(`Error generating schema: ${error}`);
+    console.error(error);
+    if (error instanceof Error) {
+      const diagnostic = (
+        error as {
+          diagnostic?: { relatedInformation?: Array<{ messageText: string }> };
+        }
+      ).diagnostic;
+      if (diagnostic && diagnostic.relatedInformation) {
+        console.log({
+          messages: diagnostic.relatedInformation.map(
+            (item: { messageText: string }) => item.messageText
+          ),
+        });
+      }
+    }
+    return null;
+  }
 }
 
 const generateJsonSchema = async () => {
-    const result = await generateSchemaInMemory();
+  const result = await generateSchemaInMemory();
 
-    if (result) {
-        const { schema, typeName, filePath } = result;
-        const outputPath = path.join(
-            path.dirname(filePath),
-            `${typeName}.schema.json`
-        );
+  if (result) {
+    const { schema, typeName, filePath } = result;
+    const outputPath = path.join(
+      path.dirname(filePath),
+      `${typeName}.schema.json`
+    );
 
-        fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
-        vscode.window.showInformationMessage(`Schema saved to ${outputPath}`);
-    }
+    fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
+    vscode.window.showInformationMessage(`Schema saved to ${outputPath}`);
+  }
 };
 
 function findTsConfig(startPath: string): string | undefined {

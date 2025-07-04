@@ -15,7 +15,10 @@ export function runMockJs(context: vscode.ExtensionContext, uri: vscode.Uri) {
   outputChannel.appendLine(`Running: ${filePath}\n`);
 
   // 获取扩展的 node_modules 路径
-  const extensionNodeModulesPath = path.join(context.extensionPath, "node_modules");
+  const extensionNodeModulesPath = path.join(
+    context.extensionPath,
+    "node_modules"
+  );
 
   const child = spawn("node", [filePath], {
     env: { ...process.env, NODE_PATH: extensionNodeModulesPath },

@@ -1,4 +1,3 @@
-
 const userPrompt = `
     请为以下JSON Schema生成一个数据实例：
     {SCHEMA_CONTENT}
