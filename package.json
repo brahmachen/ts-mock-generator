@@ -10,10 +10,7 @@
   "main": "./out/src/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "extension.generateJsonSchema",
-        "title": "%command.generateJsonSchema.title%"
-      },
+      
       {
         "command": "extension.generateFakerMock",
         "title": "%command.generateFakerMock.title%"
@@ -37,11 +34,6 @@
     ],
     "menus": {
       "editor/context": [
-        {
-          "command": "extension.generateJsonSchema",
-          "when": "editorLangId == typescript",
-          "group": "generation@1"
-        },
         {
           "command": "extension.generateFakerMockFromTs",
           "when": "editorLangId == typescript",
