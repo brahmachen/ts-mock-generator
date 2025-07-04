@@ -65,9 +65,10 @@ async function generateFakerMockFromSchema(
                 let generatedContent = response.choices[0].message.content || "";
                 generatedContent = generatedContent.replace(/```(?:javascript|js)?\n?|\n?```/g, '');
 
+                const originalFileName = path.basename(filePath, path.extname(filePath));
                 const targetPath = path.join(
                     path.dirname(filePath),
-                    `${typeName}.generated.mock.js`
+                    `${originalFileName}.${typeName}.mock.js`
                 );
 
                 fs.writeFileSync(targetPath, generatedContent);
@@ -125,9 +126,10 @@ async function generateJsonMockFromSchema(
                 const response = await openai.chat.completions.create(requestParams as any);
                 let generatedContent = response.choices[0].message.content || "{}";
 
+                const originalFileName = path.basename(filePath, path.extname(filePath));
                 const targetPath = path.join(
                     path.dirname(filePath),
-                    `${typeName}.generated.mock.json`
+                    `${originalFileName}.${typeName}.mock.json`
                 );
 
                 try {
