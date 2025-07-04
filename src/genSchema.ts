@@ -2,6 +2,9 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 import { createGenerator, Config, Schema } from "ts-json-schema-generator";
+import * as nls from "vscode-nls";
+
+const localize = nls.loadMessageBundle();
 
 async function generateSchemaInMemory(): Promise<{
   schema: Schema;
@@ -10,7 +13,9 @@ async function generateSchemaInMemory(): Promise<{
 } | null> {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
-    vscode.window.showErrorMessage("No active editor");
+    vscode.window.showErrorMessage(
+      localize("error.noActiveEditor", "No active editor")
+    );
     return null;
   }
 
@@ -25,14 +30,22 @@ async function generateSchemaInMemory(): Promise<{
       );
 
     if (!symbols) {
-      vscode.window.showErrorMessage("Could not retrieve document symbols.");
+      vscode.window.showErrorMessage(
+        localize(
+          "error.couldNotRetrieveSymbols",
+          "Could not retrieve document symbols."
+        )
+      );
       return null;
     }
 
     const targetSymbol = findTargetSymbol(symbols, position);
     if (!targetSymbol) {
       vscode.window.showErrorMessage(
-        "No type or interface found at this position"
+        localize(
+          "error.noTypeOrInterfaceFound",
+          "No type or interface found at this position"
+        )
       );
       return null;
     }
@@ -51,14 +64,22 @@ async function generateSchemaInMemory(): Promise<{
       markdownDescription: false,
     };
 
-    console.log("Generating schema in-memory for", typeName);
+    console.log(
+      localize(
+        "info.generatingSchemaInMemory",
+        "Generating schema in-memory for"
+      ),
+      typeName
+    );
 
     const generator = createGenerator(config);
     const schema = generator.createSchema(typeName);
 
     return { schema, typeName, filePath };
   } catch (error) {
-    vscode.window.showErrorMessage(`Error generating schema: ${error}`);
+    vscode.window.showErrorMessage(
+      localize("error.generatingSchema", `Error generating schema: ${error}`)
+    );
     console.error(error);
     if (error instanceof Error) {
       const diagnostic = (
@@ -89,7 +110,9 @@ const generateJsonSchema = async () => {
     );
 
     fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
-    vscode.window.showInformationMessage(`Schema saved to ${outputPath}`);
+    vscode.window.showInformationMessage(
+      localize("info.schemaSaved", `Schema saved to ${outputPath}`)
+    );
   }
 };
 

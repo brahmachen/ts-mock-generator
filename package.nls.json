@@ -1,0 +1,15 @@
+{
+  "extension.displayName": "JSON Schema Generator",
+  "extension.description": "A VS Code extension to generate JSON Schema and Mock data from TypeScript.",
+  "command.generateJsonSchema.title": "Generate JSON Schema",
+  "command.generateFakerMock.title": "Generate Faker Mock Code",
+  "command.generateJsonMock.title": "Generate Mock JSON",
+  "command.generateFakerMockFromTs.title": "Generate Faker Mock Code (Directly)",
+  "command.generateJsonMockFromTs.title": "Generate Mock JSON (Directly)",
+  "command.runMockJs.title": "Run Mock JS",
+  "configuration.title": "DeepSeek AI Settings",
+  "configuration.deepseek.apiKey.description": "Your DeepSeek API Key.",
+  "configuration.deepseek.apiUrl.description": "The API endpoint for DeepSeek (default: https://api.deepseek.com/v1).",
+  "configuration.deepseek.model.description": "The AI model to use for generation.",
+  "configuration.deepseek.temperature.description": "The temperature parameter for the API. Higher values mean more randomness."
+}

@@ -1,0 +1,15 @@
+{
+  "extension.displayName": "JSON Schema 生成器",
+  "extension.description": "一个 VS Code 扩展，用于从 TypeScript 生成 JSON Schema 和 Mock 数据。",
+  "command.generateJsonSchema.title": "生成 JSON Schema",
+  "command.generateFakerMock.title": "生成 Faker Mock 代码",
+  "command.generateJsonMock.title": "生成 Mock JSON",
+  "command.generateFakerMockFromTs.title": "生成 Faker Mock 代码 (直接)",
+  "command.generateJsonMockFromTs.title": "生成 Mock JSON (直接)",
+  "command.runMockJs.title": "运行 Mock JS",
+  "configuration.title": "DeepSeek AI 设置",
+  "configuration.deepseek.apiKey.description": "您的 DeepSeek API 密钥。",
+  "configuration.deepseek.apiUrl.description": "DeepSeek 的 API 端点 (默认: https://api.deepseek.com/v1)。",
+  "configuration.deepseek.model.description": "用于生成的 AI 模型。",
+  "configuration.deepseek.temperature.description": "API 的 temperature 参数，值越高，随机性越强。"
+}

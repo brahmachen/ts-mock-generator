@@ -5,6 +5,9 @@ import OpenAI from "openai";
 import prompts from "./prompt";
 import jsonPrompts from "./prompt-json";
 import { Schema } from "ts-json-schema-generator";
+import * as nls from "vscode-nls";
+
+const localize = nls.loadMessageBundle();
 
 // 日志函数封装
 function logToFile(
@@ -39,7 +42,10 @@ async function generateFakerMockFromSchema(
 
     if (!apiKey) {
       vscode.window.showErrorMessage(
-        "DeepSeek API key is not configured. Please set it in the settings."
+        localize(
+          "error.apiKeyNotConfigured",
+          "DeepSeek API key is not configured. Please set it in the settings."
+        )
       );
       return;
     }
@@ -47,7 +53,10 @@ async function generateFakerMockFromSchema(
     vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: "Generating Faker Mock Code...",
+        title: localize(
+          "progress.generatingFakerMock",
+          "Generating Faker Mock Code..."
+        ),
         cancellable: false,
       },
       async () => {
@@ -95,7 +104,10 @@ async function generateFakerMockFromSchema(
         fs.writeFileSync(targetPath, generatedContent);
         logToFile(logPath, `Mock data saved to: ${targetPath}`);
         vscode.window.showInformationMessage(
-          `Mock data generated successfully ➜ ${path.basename(targetPath)}`
+          localize(
+            "info.fakerMockGenerated",
+            `Mock data generated successfully ➜ ${path.basename(targetPath)}`
+          )
         );
       }
     );
@@ -106,7 +118,10 @@ async function generateFakerMockFromSchema(
         : JSON.stringify(error);
     logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
     vscode.window.showErrorMessage(
-      `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+      localize(
+        "error.aiServiceFailed",
+        `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+      )
     );
   }
 }
@@ -129,7 +144,10 @@ async function generateJsonMockFromSchema(
 
     if (!apiKey) {
       vscode.window.showErrorMessage(
-        "DeepSeek API key is not configured. Please set it in the settings."
+        localize(
+          "error.apiKeyNotConfigured",
+          "DeepSeek API key is not configured. Please set it in the settings."
+        )
       );
       return;
     }
@@ -137,7 +155,10 @@ async function generateJsonMockFromSchema(
     vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
-        title: "Generating Mock JSON...",
+        title: localize(
+          "progress.generatingJsonMock",
+          "Generating Mock JSON..."
+        ),
         cancellable: false,
       },
       async () => {
@@ -192,7 +213,10 @@ async function generateJsonMockFromSchema(
 
         logToFile(logPath, `Mock JSON saved to: ${targetPath}`);
         vscode.window.showInformationMessage(
-          `Mock JSON saved successfully ➜ ${path.basename(targetPath)}`
+          localize(
+            "info.jsonMockGenerated",
+            `Mock JSON saved successfully ➜ ${path.basename(targetPath)}`
+          )
         );
       }
     );
@@ -203,7 +227,10 @@ async function generateJsonMockFromSchema(
         : JSON.stringify(error);
     logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
     vscode.window.showErrorMessage(
-      `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+      localize(
+        "error.aiServiceFailed",
+        `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
+      )
     );
   }
 }

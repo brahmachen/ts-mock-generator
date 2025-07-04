@@ -1,6 +1,7 @@
 {
   "name": "schema-generator",
-  "displayName": "JSON Schema Generator",
+  "displayName": "%extension.displayName%",
+  "description": "%extension.description%",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.50.0"
@@ -11,27 +12,27 @@
     "commands": [
       {
         "command": "extension.generateJsonSchema",
-        "title": "Generate JSON Schema"
+        "title": "%command.generateJsonSchema.title%"
       },
       {
         "command": "extension.generateFakerMock",
-        "title": "Generate Faker Mock Code"
+        "title": "%command.generateFakerMock.title%"
       },
       {
         "command": "extension.generateJsonMock",
-        "title": "Generate Mock JSON"
+        "title": "%command.generateJsonMock.title%"
       },
       {
         "command": "extension.generateFakerMockFromTs",
-        "title": "Generate Faker Mock Code (Directly)"
+        "title": "%command.generateFakerMockFromTs.title%"
       },
       {
         "command": "extension.generateJsonMockFromTs",
-        "title": "Generate Mock JSON (Directly)"
+        "title": "%command.generateJsonMockFromTs.title%"
       },
       {
         "command": "extension.runMockJs",
-        "title": "Run Mock JS"
+        "title": "%command.runMockJs.title%"
       }
     ],
     "menus": {
@@ -70,26 +71,26 @@
       "explorer/context": []
     },
     "configuration": {
-      "title": "DeepSeek",
+      "title": "%configuration.title%",
       "properties": {
         "deepseek.apiKey": {
           "type": "string",
-          "description": "DeepSeek API密钥"
+          "description": "%configuration.deepseek.apiKey.description%"
         },
         "deepseek.apiUrl": {
           "type": "string",
           "default": "https://api.deepseek.com/v1",
-          "description": "API端点地址"
+          "description": "%configuration.deepseek.apiUrl.description%"
         },
         "deepseek.model": {
           "type": "string",
           "default": "deepseek-chat",
-          "description": "要使用的AI模型"
+          "description": "%configuration.deepseek.model.description%"
         },
         "deepseek.temperature": {
           "type": "number",
           "default": 0.3,
-          "description": "API的temperature参数，值越高，随机性越强"
+          "description": "%configuration.deepseek.temperature.description%"
         }
       }
     }
@@ -108,7 +109,8 @@
   "dependencies": {
     "@faker-js/faker": "^9.5.1",
     "openai": "^4.86.2",
-    "ts-json-schema-generator": "^2.3.0"
+    "ts-json-schema-generator": "^2.3.0",
+    "vscode-nls": "^5.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.13.9",
@@ -121,5 +123,16 @@
     "prettier": "^3.6.2",
     "typescript": "^4.9.5",
     "vscode": "^1.1.37"
-  }
+  },
+  "__metadata": {
+    "id": "a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d",
+    "publisherId": "your-publisher-id",
+    "publisherDisplayName": "Your Publisher Name"
+  },
+  "localization": [
+    {
+      "language": "zh-cn",
+      "contents": "./package.nls.zh-cn.json"
+    }
+  ]
 }

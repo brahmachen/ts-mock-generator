@@ -8,8 +8,12 @@ import {
 import { generateJsonSchema, generateSchemaInMemory } from "./genSchema";
 import { runMockJs } from "./runCode";
 
+import * as nls from "vscode-nls";
+
+const localize = nls.loadMessageBundle();
+
 export function activate(context: vscode.ExtensionContext) {
-  console.log("插件已激活！");
+  console.log(localize("extension.activated", "插件已激活！"));
 
   // 从 .schema.json 文件生成
   context.subscriptions.push(
