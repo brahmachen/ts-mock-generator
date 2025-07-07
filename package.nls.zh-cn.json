@@ -1,5 +1,5 @@
 {
-  "extension.displayName": "JSON Schema 生成器",
+  "extension.displayName": "TS Mock Generator",
   "extension.description": "一个 VS Code 扩展，用于从 TypeScript 生成 JSON Schema 和 Mock 数据。",
   "command.generateFakerMock.title": "Faker Mock",
   "command.generateJsonMock.title": "JSON Mock",

@@ -1,6 +1,6 @@
 {
-  "name": "schema-generator",
-  "displayName": "%extension.displayName%",
+  "name": "ts-mock-generator",
+  "displayName": "TS Mock Generator",
   "description": "%extension.description%",
   "version": "1.0.0",
   "engines": {
@@ -87,7 +87,6 @@
       }
     }
   },
-  "description": "",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",

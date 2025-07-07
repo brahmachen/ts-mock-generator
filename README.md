@@ -1,12 +1,12 @@
-# JSON Schema Generator VS Code Extension
+# TS Mock Generator VS Code Extension
 
-A powerful VS Code extension to generate JSON Schema and Mock data from TypeScript interfaces, powered by AI.
+A powerful VS Code extension to generate Mock data from TypeScript interfaces, powered by AI.
 
 ## Features
 
-*   **Generate JSON Schema**: Quickly create JSON schemas from your TypeScript interfaces.
 *   **Generate Mock Code**: Generate realistic mock data using Faker.js based on your schemas or TypeScript types.
 *   **Generate Mock JSON**: Directly output mock JSON objects.
+*   **Generate JSON Schema**: Quickly create JSON schemas from your TypeScript interfaces.
 *   **AI-Powered Generation**: Leverage DeepSeek AI to intelligently generate mock code and data.
 *   **Seamless Integration**: Right-click context menus for easy access within your editor.
 
@@ -14,7 +14,7 @@ A powerful VS Code extension to generate JSON Schema and Mock data from TypeScri
 
 1.  Open VS Code.
 2.  Go to Extensions (Ctrl+Shift+X or Cmd+Shift+X).
-3.  Search for "JSON Schema Generator" (or your extension's display name).
+3.  Search for "TS Mock Generator" .
 4.  Click "Install".
 
 ## Configuration
@@ -28,20 +28,12 @@ This extension requires a DeepSeek API Key to function. You can configure it in 
 
 ## Usage
 
-### Generating JSON Schema from TypeScript
-
-1.  Open a TypeScript file (`.ts` or `.tsx`).
-2.  Place your cursor inside or on a TypeScript interface or type definition.
-3.  Right-click in the editor.
-4.  Select `Generate JSON Schema`.
-5.  A new `.schema.json` file will be generated next to your TypeScript file.
-
 ### Generating Faker Mock Code from TypeScript
 
 1.  Open a TypeScript file (`.ts` or `.tsx`).
 2.  Place your cursor inside or on a TypeScript interface or type definition.
 3.  Right-click in the editor.
-4.  Select `Generate Faker Mock Code (Directly)`.
+4.  Select `TS -> Faker Mock`.
 5.  A new `.mock.js` file will be generated with Faker.js code.
 
 ### Generating Mock JSON from TypeScript
@@ -49,14 +41,14 @@ This extension requires a DeepSeek API Key to function. You can configure it in 
 1.  Open a TypeScript file (`.ts` or `.tsx`).
 2.  Place your cursor inside or on a TypeScript interface or type definition.
 3.  Right-click in the editor.
-4.  Select `Generate Mock JSON (Directly)`.
+4.  Select `TS -> JSON Mock`.
 5.  A new `.mock.json` file will be generated with mock JSON data.
 
 ### Running Generated Mock JS Files
 
 1.  Open a generated `.mock.js` file.
 2.  Right-click in the editor.
-3.  Select `Run Mock JS`.
+3.  Select `Run MockJS`.
 4.  The output will be displayed in the VS Code output panel.
 
 ## Troubleshooting
