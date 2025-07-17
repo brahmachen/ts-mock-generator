@@ -98,7 +98,7 @@ async function generateFakerMockFromSchema(
         );
         const targetPath = path.join(
           path.dirname(filePath),
-          `${originalFileName}.${typeName}.mock.js`
+          `${originalFileName}.${typeName}.mock.cjs`
         );
 
         fs.writeFileSync(targetPath, generatedContent);

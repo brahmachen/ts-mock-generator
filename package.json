@@ -56,7 +56,7 @@
         },
         {
           "command": "extension.runMockJs",
-          "when": "resourceFilename =~ /.*\\.mock\\.js$/",
+          "when": "resourceFilename =~ /.*\\.mock\\.cjs$/",
           "group": "run_mock_js"
         }
       ],
