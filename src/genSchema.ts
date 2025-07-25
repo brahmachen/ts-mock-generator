@@ -6,7 +6,9 @@ import * as nls from "vscode-nls";
 
 const localize = nls.loadMessageBundle();
 
-async function generateSchemaInMemory(): Promise<{
+async function generateSchemaInMemory(
+  context: vscode.ExtensionContext
+): Promise<{
   schema: Schema;
   typeName: string;
   filePath: string;
@@ -75,6 +77,15 @@ async function generateSchemaInMemory(): Promise<{
     const generator = createGenerator(config);
     const schema = generator.createSchema(typeName);
 
+    if (context.extensionMode === vscode.ExtensionMode.Development) {
+      const outputPath = path.join(
+        path.dirname(filePath),
+        `${typeName}.debug.schema.json`
+      );
+      fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
+      console.log(`Debug schema saved to ${outputPath}`);
+    }
+
     return { schema, typeName, filePath };
   } catch (error) {
     vscode.window.showErrorMessage(
@@ -99,8 +110,8 @@ async function generateSchemaInMemory(): Promise<{
   }
 }
 
-const generateJsonSchema = async () => {
-  const result = await generateSchemaInMemory();
+const generateJsonSchema = async (context: vscode.ExtensionContext) => {
+  const result = await generateSchemaInMemory(context);
 
   if (result) {
     const { schema, typeName, filePath } = result;

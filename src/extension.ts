@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
   // 从 ts 文件生成 .schema.json
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.generateJsonSchema", () => {
-      generateJsonSchema();
+      generateJsonSchema(context);
     })
   );
 
@@ -40,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "extension.generateFakerMockFromTs",
       async () => {
-        const result = await generateSchemaInMemory();
+        const result = await generateSchemaInMemory(context);
         if (result) {
           generateFakerMockFromSchema(
             context,
@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "extension.generateJsonMockFromTs",
       async () => {
-        const result = await generateSchemaInMemory();
+        const result = await generateSchemaInMemory(context);
         if (result) {
           generateJsonMockFromSchema(
             context,
