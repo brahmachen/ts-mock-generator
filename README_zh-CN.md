@@ -8,7 +8,7 @@
 
 *   **生成模拟代码**: 基于您的 TypeScript 类型或 JSON Schema，使用 Faker.js 生成逼真的模拟数据代码。
 *   **生成模拟 JSON**: 直接输出模拟的 JSON 对象。
-*   **生成 JSON Schema**: 从您的 TypeScript 接口快速创建 JSON Schema。
+*   **生成 JSON Schema**: 从您的 TypeScript 接口快速创建 JSON Schema。现在能够智能处理 TypeScript 代码中的单行注释（//），在内存中将其转换为 JSDoc，从而在不修改源文件的情况下，确保生成的 Schema 包含更丰富的描述。
 *   **AI 驱动生成**: 利用 DeepSeek AI 智能生成模拟代码和数据。
 *   **无缝集成**: 通过右键上下文菜单在编辑器内轻松访问。
 
@@ -69,6 +69,27 @@
 *   **"API Key is not configured"**: 请确保您已在 VS Code 设置中填写了 DeepSeek API 密钥。
 *   **"Request to AI service failed"**: 请检查您的网络连接和 API 密钥是否正确。AI 服务可能暂时不可用。
 *   **右键菜单项未显示**: 请确保您当前操作的文件是 `.ts`, `.tsx`, `.schema.json`, 或 `.mock.js` 类型。
+
+## 🛠️ 开发
+
+### 构建与资源复制
+
+要编译 TypeScript 源代码并将必要的资源（例如用于提示的 `.txt` 文件）复制到 `out` 目录，请使用：
+
+```bash
+npm run compile
+```
+
+此命令确保所有必需的文件都已就位，以便扩展正常运行。
+
+### 自动化格式化与 Linting
+
+为了提供无缝的开发体验，本项目已配置为在文件保存时自动格式化并修复 Linting 问题。这通过 `.vscode/settings.json` 文件实现：
+
+*   **保存时格式化**: 当您保存文件时，代码将使用 Prettier 自动格式化。
+*   **ESLint 自动修复**: ESLint 中可自动修复的问题将在保存时得到解决。
+
+请确保您已安装 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) 和 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) VS Code 扩展，以便此功能正常工作。
 
 ## 🤝 参与贡献
 
