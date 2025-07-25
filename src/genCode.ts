@@ -113,17 +113,34 @@ async function generateAndWriteAiContent(
       }
     );
   } catch (error) {
-    const errorMessage =
-      error instanceof Error
-        ? error.stack || error.message
-        : JSON.stringify(error);
-    logToFile(logPath, `Error occurred: ${errorMessage}`, "ERROR");
-    vscode.window.showErrorMessage(
-      localize(
-        "error.aiServiceFailed",
-        `Request to AI service failed. Please check your network connection or API key. Error: ${error instanceof Error ? error.message : "Unknown error"}`
-      )
-    );
+    let userFacingMessage: string;
+    let logMessage: string;
+
+    if (error instanceof OpenAI.APIError) {
+      // Specific API errors from OpenAI/DeepSeek
+      userFacingMessage = localize(
+        "error.aiServiceFailedApi",
+        `AI service error: ${error.status} - ${error.message}. Please check your API key or service status.`
+      );
+      logMessage = `API Error: ${error.status} - ${error.name} - ${error.message} (Type: ${error.type}, Code: ${error.code})`;
+    } else if (error instanceof Error) {
+      // General JavaScript errors
+      userFacingMessage = localize(
+        "error.aiServiceFailedGeneral",
+        `An unexpected error occurred: ${error.message}. Please try again.`
+      );
+      logMessage = `General Error: ${error.stack || error.message}`;
+    } else {
+      // Unknown errors
+      userFacingMessage = localize(
+        "error.aiServiceFailedUnknown",
+        `An unknown error occurred. Please try again.`
+      );
+      logMessage = `Unknown Error: ${JSON.stringify(error)}`;
+    }
+
+    logToFile(logPath, logMessage, "ERROR");
+    vscode.window.showErrorMessage(userFacingMessage);
   }
 }
 

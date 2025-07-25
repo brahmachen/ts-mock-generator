@@ -10,5 +10,9 @@
   "configuration.deepseek.apiKey.description": "您的 DeepSeek API 密钥。",
   "configuration.deepseek.apiUrl.description": "DeepSeek 的 API 端点 (默认: https://api.deepseek.com/v1)。",
   "configuration.deepseek.model.description": "用于生成的 AI 模型。",
-  "configuration.deepseek.temperature.description": "API 的 temperature 参数，值越高，随机性越强。"
+  "configuration.deepseek.temperature.description": "API 的 temperature 参数，值越高，随机性越强。",
+  "error.aiServiceFailedApi": "AI 服务错误：{0} - {1}。请检查您的 API 密钥或服务状态。",
+  "error.aiServiceFailedGeneral": "发生意外错误：{0}。请重试。",
+  "error.aiServiceFailedUnknown": "发生未知错误。请重试。"
+
 }

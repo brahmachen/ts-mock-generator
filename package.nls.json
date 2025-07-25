@@ -10,5 +10,9 @@
   "configuration.deepseek.apiKey.description": "Your DeepSeek API Key.",
   "configuration.deepseek.apiUrl.description": "The API endpoint for DeepSeek (default: https://api.deepseek.com/v1).",
   "configuration.deepseek.model.description": "The AI model to use for generation.",
-  "configuration.deepseek.temperature.description": "The temperature parameter for the API. Higher values mean more randomness."
+  "configuration.deepseek.temperature.description": "The temperature parameter for the API. Higher values mean more randomness.",
+  "error.aiServiceFailedApi": "AI service error: {0} - {1}. Please check your API key or service status.",
+  "error.aiServiceFailedGeneral": "An unexpected error occurred: {0}. Please try again.",
+  "error.aiServiceFailedUnknown": "An unknown error occurred. Please try again."
+
 }

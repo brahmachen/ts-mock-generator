@@ -8,7 +8,7 @@ A powerful VS Code extension to generate Mock data from TypeScript interfaces, p
 
 *   **Generate Mock Code**: Generate realistic mock data using Faker.js based on your schemas or TypeScript types.
 *   **Generate Mock JSON**: Directly output mock JSON objects.
-*   **Generate JSON Schema**: Quickly create JSON schemas from your TypeScript interfaces.
+*   **Generate JSON Schema**: Quickly create JSON schemas from your TypeScript interfaces. Now intelligently processes single-line comments (//) in your TypeScript code, converting them to JSDoc in-memory to ensure richer descriptions in the generated schema without modifying your source files.
 *   **AI-Powered Generation**: Leverage DeepSeek AI to intelligently generate mock code and data.
 *   **Seamless Integration**: Right-click context menus for easy access within your editor.
 
@@ -70,6 +70,27 @@ This extension requires a DeepSeek API Key to function. You can configure it in 
 *   **"API Key is not configured"**: Ensure you have set your DeepSeek API Key in VS Code settings.
 *   **"Request to AI service failed"**: Check your internet connection and API Key. The AI service might be temporarily unavailable.
 *   **Context menu items not showing**: Ensure you are in a `.ts`, `.tsx`, `.schema.json`, or `.mock.js` file.
+
+## Development
+
+### Building and Asset Copying
+
+To compile the TypeScript source code and copy necessary assets (like `.txt` files for prompts) to the `out` directory, use:
+
+```bash
+npm run compile
+```
+
+This command ensures that all required files are in place for the extension to run correctly.
+
+### Automated Formatting and Linting
+
+For a seamless development experience, this project is configured to automatically format and fix linting issues on file save within VS Code. This is achieved via the `.vscode/settings.json` file:
+
+*   **Format on Save**: Code will be automatically formatted using Prettier when you save a file.
+*   **ESLint Auto Fix**: ESLint issues that can be automatically fixed will be resolved upon saving.
+
+Ensure you have the [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) VS Code extensions installed for this to work.
 
 ## Contributing
 
