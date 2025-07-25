@@ -3,8 +3,49 @@ import * as fs from "fs";
 import * as path from "path";
 import { createGenerator, Config, Schema } from "ts-json-schema-generator";
 import * as nls from "vscode-nls";
+import * as os from "os";
 
 const localize = nls.loadMessageBundle();
+
+function convertSingleLineCommentsToJsDoc(code: string): string {
+  const lines = code.split("\n");
+  const newLines: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmedLine = line.trim();
+
+    // Case 1: Comment at the end of a line with code
+    const endOfLineCommentMatch = line.match(/^(.*?[;|,])\s*\/\/\s*(.*)$/);
+    if (endOfLineCommentMatch) {
+      const codePart = endOfLineCommentMatch[1];
+      const commentText = endOfLineCommentMatch[2].trim();
+      const indentation = line.match(/^\s*/)?.[0] || "";
+      newLines.push(
+        `${indentation}/**\n${indentation} * ${commentText}\n${indentation} */`
+      );
+      newLines.push(codePart);
+      continue;
+    }
+
+    // Case 2: Comment on its own line before a line with code
+    if (trimmedLine.startsWith("//")) {
+      const nextLine = lines[i + 1];
+      if (nextLine && nextLine.trim() && !nextLine.trim().startsWith("//")) {
+        const commentText = trimmedLine.substring(2).trim();
+        const indentation = line.match(/^\s*/)?.[0] || "";
+        newLines.push(
+          `${indentation}/**\n${indentation} * ${commentText}\n${indentation} */`
+        );
+        continue;
+      }
+    }
+
+    newLines.push(line);
+  }
+
+  return newLines.join("\n");
+}
 
 async function generateSchemaInMemory(
   context: vscode.ExtensionContext
@@ -23,6 +64,7 @@ async function generateSchemaInMemory(
 
   const document = editor.document;
   const position = editor.selection.active;
+  let tempFilePath = "";
 
   try {
     const symbols: vscode.DocumentSymbol[] | undefined =
@@ -55,11 +97,18 @@ async function generateSchemaInMemory(
     const typeName = targetSymbol.name;
     const filePath = document.fileName;
 
+    const originalContent = fs.readFileSync(filePath, "utf8");
+    const convertedContent = convertSingleLineCommentsToJsDoc(originalContent);
+
+    const tempDir = os.tmpdir();
+    tempFilePath = path.join(tempDir, `temp_${Date.now()}.ts`);
+    fs.writeFileSync(tempFilePath, convertedContent);
+
     const config: Config = {
-      path: filePath,
+      path: tempFilePath,
       tsconfig: findTsConfig(path.dirname(filePath)),
       type: typeName,
-      skipTypeCheck: true, // 禁用所有类型检查
+      skipTypeCheck: true,
       expose: "export",
       topRef: true,
       jsDoc: "extended",
@@ -107,6 +156,10 @@ async function generateSchemaInMemory(
       }
     }
     return null;
+  } finally {
+    if (tempFilePath && fs.existsSync(tempFilePath)) {
+      fs.unlinkSync(tempFilePath);
+    }
   }
 }
 
