@@ -109,7 +109,7 @@ async function generateSchemaInMemory(
       tsconfig: findTsConfig(path.dirname(filePath)),
       type: typeName,
       skipTypeCheck: true,
-      expose: "export",
+      expose: "all",
       topRef: true,
       jsDoc: "extended",
       markdownDescription: false,
@@ -203,6 +203,7 @@ function findTargetSymbol(
   for (const symbol of symbols) {
     if (
       (symbol.kind === vscode.SymbolKind.Interface ||
+        symbol.kind === vscode.SymbolKind.Struct ||
         symbol.kind === vscode.SymbolKind.Variable) &&
       symbol.range.contains(position)
     ) {

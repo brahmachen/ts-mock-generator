@@ -38,12 +38,12 @@
       "editor/context": [
         {
           "command": "extension.generateFakerMockFromTs",
-          "when": "editorLangId == typescript",
+          "when": "editorLangId == typescript || editorLangId == typescriptreact",
           "group": "generation@2"
         },
         {
           "command": "extension.generateJsonMockFromTs",
-          "when": "editorLangId == typescript",
+          "when": "editorLangId == typescript || editorLangId == typescriptreact",
           "group": "generation@3"
         },
         {
