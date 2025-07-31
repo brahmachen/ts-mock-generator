@@ -3,6 +3,10 @@
   "displayName": "TS Mock Generator",
   "description": "%extension.description%",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brahmachen/ts-mock-generator.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
