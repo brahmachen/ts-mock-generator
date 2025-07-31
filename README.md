@@ -21,7 +21,7 @@ The following GIF demonstrates how to:
 4.  Run the mock script (`Run MockJS`).
 5.  View the output in the terminal.
 
-![TS Mock Generator Demo](https://raw.githubusercontent.com/brahmachen/ts-mock-generator/refs/heads/main/examples/output.gif)
+![TS Mock Generator Demo](https://raw.githubusercontent.com/brahmachen/ts-mock-generator/refs/heads/main/examples/output.gif?raw=true)
 
 ## Installation
 

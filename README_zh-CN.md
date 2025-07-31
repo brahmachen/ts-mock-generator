@@ -21,7 +21,7 @@
 4.  选择 `Run MockJS` 运行模拟脚本。
 5.  在终端中查看输出结果。
 
-![TS Mock Generator Demo](https://raw.githubusercontent.com/brahmachen/ts-mock-generator/refs/heads/main/examples/output.gif)
+![TS Mock Generator Demo](https://raw.githubusercontent.com/brahmachen/ts-mock-generator/refs/heads/main/examples/output.gif?raw=true)
 
 ## 📦 安装
 
