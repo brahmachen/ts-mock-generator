@@ -41,10 +41,10 @@ async function generateAndWriteAiContent(
   if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
   }
-  const logPath = path.join(logDir, "deepseek-mock-generator.log");
+  const logPath = path.join(logDir, "ts-mock-generator.log");
 
   try {
-    const config = vscode.workspace.getConfiguration("deepseek");
+    const config = vscode.workspace.getConfiguration("ts-mock-generator");
     const apiKey = config.get<string>("apiKey");
 
     if (!apiKey) {
@@ -188,7 +188,7 @@ export async function generateJsonMockFromSchema(
         return JSON.stringify(JSON.parse(content), null, 2);
       } catch (e) {
         logToFile(
-          path.join(context.globalStoragePath, "deepseek-mock-generator.log"),
+          path.join(context.globalStoragePath, "ts-mock-generator.log"),
           `Failed to parse generated JSON content. Saved as raw string. Error: ${e}`,
           "ERROR"
         );

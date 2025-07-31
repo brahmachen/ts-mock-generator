@@ -35,9 +35,9 @@ The following GIF demonstrates how to:
 This extension requires a DeepSeek API Key to function. You can configure it in VS Code settings:
 
 1.  Go to `File > Preferences > Settings` (or `Code > Preferences > Settings` on macOS).
-2.  Search for "DeepSeek".
-3.  Enter your API Key in the `DeepSeek: Api Key` field.
-4.  (Optional) Configure `DeepSeek: Api Url`, `DeepSeek: Model`, and `DeepSeek: Temperature`.
+2.  Search for "TS Mock Generator".
+3.  Enter your API Key in the `TS Mock Generator: Api Key` field.
+4.  (Optional) Configure `TS Mock Generator: Api Url`, `TS Mock Generator: Model`, and `TS Mock Generator: Temperature`.
 
 ## Usage
 

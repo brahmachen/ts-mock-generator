@@ -35,9 +35,9 @@
 本扩展需要配置 DeepSeek API 密钥才能正常工作。您可以在 VS Code 设置中进行配置：
 
 1.  前往 `文件 > 首选项 > 设置` (在 macOS 上是 `Code > 首选项 > 设置`)。
-2.  搜索 "DeepSeek"。
-3.  在 `DeepSeek: Api Key` 字段中输入您的 API 密钥。
-4.  (可选) 配置 `DeepSeek: Api Url`, `DeepSeek: Model`, 和 `DeepSeek: Temperature`。
+2.  搜索 "TS Mock Generator"。
+3.  在 `TS Mock Generator: Api Key` 字段中输入您的 API 密钥。
+4.  (可选) 配置 `TS Mock Generator: Api Url`, `TS Mock Generator: Model`, 和 `TS Mock Generator: Temperature`。
 
 ## 💡 使用方法
 
