@@ -1,8 +1,9 @@
 {
   "name": "ts-mock-generator",
+  "publisher": "mockgeneratororg",
   "displayName": "TS Mock Generator",
   "description": "%extension.description%",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/brahmachen/ts-mock-generator.git"
@@ -112,7 +113,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.9",
-    "@types/vscode": "^1.102.0",
+    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "cpx": "^1.5.0",
@@ -124,8 +125,8 @@
   },
   "__metadata": {
     "id": "a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d",
-    "publisherId": "your-publisher-id",
-    "publisherDisplayName": "Your Publisher Name"
+    "publisherId": "mockgeneratororg",
+    "publisherDisplayName": "Mock Generator"
   },
   "localization": [
     {

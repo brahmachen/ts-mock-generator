@@ -1,11 +1,13 @@
+
 .vscode/
 .git/
 .gitignore
 .eslintrc.js
 .prettierrc.js
-node_modules/
+
 src/
 *.map
 *.ts
 *.log
 *.vsix
+examples/
