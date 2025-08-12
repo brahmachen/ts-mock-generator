@@ -1,101 +1,100 @@
-# TS Mock Generator VS Code Extension
+# TS Mock Generator VS Code 扩展
 
-English | [简体中文](./README_zh-CN.md)
+[English](./README.md) | 简体中文
 
-A powerful VS Code extension to generate Mock data from TypeScript interfaces, powered by AI.
+一款强大的 VS Code 扩展，可根据 TypeScript 接口，利用 AI 驱动生成模拟数据（Mock data）。
 
-## Features
+## ✨ 功能特性
 
-*   **Generate Mock Code**: Generate realistic mock data using Faker.js based on your schemas or TypeScript types.
-*   **Generate Mock JSON**: Directly output mock JSON objects.
-*   **Generate JSON Schema**: Quickly create JSON schemas from your TypeScript interfaces. Now intelligently processes single-line comments (//) in your TypeScript code, converting them to JSDoc in-memory to ensure richer descriptions in the generated schema without modifying your source files.
-*   **AI-Powered Generation**: Leverage DeepSeek AI to intelligently generate mock code and data.
-*   **Seamless Integration**: Right-click context menus for easy access within your editor.
+*   **生成模拟代码**: 基于您的 TypeScript 类型或 JSON Schema，使用 Faker.js 生成逼真的模拟数据代码。
+*   **生成模拟 JSON**: 直接输出模拟的 JSON 对象。
+*   **生成 JSON Schema**: 从您的 TypeScript 接口快速创建 JSON Schema。现在能够智能处理 TypeScript 代码中的单行注释（//），在内存中将其转换为 JSDoc，从而在不修改源文件的情况下，确保生成的 Schema 包含更丰富的描述。
+*   **AI 驱动生成**: 利用 DeepSeek AI 智能生成模拟代码和数据。
+*   **无缝集成**: 通过右键上下文菜单在编辑器内轻松访问。
 
-## Demo
+## 🚀 Demo 演示
 
-The following GIF demonstrates how to:
-1.  Right-click on a TypeScript type.
-2.  Generate Faker.js mock code (`TS -> Faker Mock`).
-3.  Open the generated `.mock.js` file.
-4.  Run the mock script (`Run MockJS`).
-5.  View the output in the terminal.
+下面的 GIF 演示了如何：
+1.  在 TypeScript 类型上右键单击。
+2.  选择 `TS -> Faker Mock` 生成 Faker.js 模拟代码。
+3.  打开生成的 `.mock.js` 文件。
+4.  选择 `Run MockJS` 运行模拟脚本。
+5.  在终端中查看输出结果。
 
 ![TS Mock Generator Demo](https://raw.githubusercontent.com/brahmachen/ts-mock-generator/refs/heads/main/examples/output.gif?raw=true)
 
-## Installation
+## 📦 安装
 
-1.  Open VS Code.
-2.  Go to Extensions (Ctrl+Shift+X or Cmd+Shift+X).
-3.  Search for "TS Mock Generator" .
-4.  Click "Install".
+1.  打开 VS Code。
+2.  前往“扩展”视图 (Ctrl+Shift+X 或 Cmd+Shift+X)。
+3.  搜索 "TS Mock Generator"。
+4.  点击“安装”。
 
-## Configuration
+## ⚙️ 配置
 
-This extension requires a DeepSeek API Key to function. You can configure it in VS Code settings:
+本扩展需要配置 DeepSeek API 密钥才能正常工作。您可以在 VS Code 设置中进行配置：
 
-1.  Go to `File > Preferences > Settings` (or `Code > Preferences > Settings` on macOS).
-2.  Search for "TS Mock Generator".
-3.  Enter your API Key in the `TS Mock Generator: Api Key` field.
-4.  (Optional) Configure `TS Mock Generator: Api Url`, `TS Mock Generator: Model`, and `TS Mock Generator: Temperature`.
+1.  前往 `文件 > 首选项 > 设置` (在 macOS 上是 `Code > 首选项 > 设置`)。
+2.  搜索 "TS Mock Generator"。
+3.  在 `TS Mock Generator: Api Key` 字段中输入您的 API 密钥。
+4.  (可选) 配置 `TS Mock Generator: Api Url`, `TS Mock Generator: Model`, 和 `TS Mock Generator: Temperature`。
 
-## Usage
+## 💡 使用方法
 
-### Generating Faker Mock Code from TypeScript
+### 从 TypeScript 生成 Faker 模拟代码
 
-1.  Open a TypeScript file (`.ts` or `.tsx`).
-2.  Place your cursor inside or on a TypeScript interface or type definition.
-3.  Right-click in the editor.
-4.  Select `TS -> Faker Mock`.
-5.  A new `.mock.js` file will be generated with Faker.js code.
+1.  打开一个 TypeScript 文件 (`.ts` 或 `.tsx`)。
+2.  将光标放在一个 TypeScript `interface` 或 `type` 定义上。
+3.  在编辑器中右键单击。
+4.  选择 `TS -> Faker Mock`。
+5.  一个新的 `.mock.js` 文件将会被创建，其中包含 Faker.js 代码。
 
-### Generating Mock JSON from TypeScript
+### 从 TypeScript 生成模拟 JSON
 
-1.  Open a TypeScript file (`.ts` or `.tsx`).
-2.  Place your cursor inside or on a TypeScript interface or type definition.
-3.  Right-click in the editor.
-4.  Select `TS -> JSON Mock`.
-5.  A new `.mock.json` file will be generated with mock JSON data.
+1.  打开一个 TypeScript 文件 (`.ts` 或 `.tsx`)。
+2.  将光标放在一个 TypeScript `interface` 或 `type` 定义上。
+3.  在编辑器中右键单击。
+4.  选择 `TS -> JSON Mock`。
+5.  一个新的 `.mock.json` 文件将会被创建，其中包含模拟的 JSON 数据。
 
-### Running Generated Mock JS Files
+### 运行生成的 Mock JS 文件
 
-1.  Open a generated `.mock.js` file.
-2.  Right-click in the editor.
-3.  Select `Run MockJS`.
-4.  The output will be displayed in the VS Code output panel.
+1.  打开一个已生成的 `.mock.js` 文件。
+2.  在编辑器中右键单击。
+3.  选择 `Run MockJS`。
+4.  输出结果将显示在 VS Code 的输出面板中。
 
+## 🤔 问题排查
 
-## Troubleshooting
+*   **"API Key is not configured"**: 请确保您已在 VS Code 设置中填写了 DeepSeek API 密钥。
+*   **"Request to AI service failed"**: 请检查您的网络连接和 API 密钥是否正确。AI 服务可能暂时不可用。
+*   **右键菜单项未显示**: 请确保您当前操作的文件是 `.ts`, `.tsx`, `.schema.json`, 或 `.mock.js` 类型。
 
-*   **"API Key is not configured"**: Ensure you have set your DeepSeek API Key in VS Code settings.
-*   **"Request to AI service failed"**: Check your internet connection and API Key. The AI service might be temporarily unavailable.
-*   **Context menu items not showing**: Ensure you are in a `.ts`, `.tsx`, `.schema.json`, or `.mock.js` file.
+## 🛠️ 开发
 
-## Development
+### 构建与资源复制
 
-### Building and Asset Copying
-
-To compile the TypeScript source code and copy necessary assets (like `.txt` files for prompts) to the `out` directory, use:
+要编译 TypeScript 源代码并将必要的资源（例如用于提示的 `.txt` 文件）复制到 `out` 目录，请使用：
 
 ```bash
 npm run compile
 ```
 
-This command ensures that all required files are in place for the extension to run correctly.
+此命令确保所有必需的文件都已就位，以便扩展正常运行。
 
-### Automated Formatting and Linting
+### 自动化格式化与 Linting
 
-For a seamless development experience, this project is configured to automatically format and fix linting issues on file save within VS Code. This is achieved via the `.vscode/settings.json` file:
+为了提供无缝的开发体验，本项目已配置为在文件保存时自动格式化并修复 Linting 问题。这通过 `.vscode/settings.json` 文件实现：
 
-*   **Format on Save**: Code will be automatically formatted using Prettier when you save a file.
-*   **ESLint Auto Fix**: ESLint issues that can be automatically fixed will be resolved upon saving.
+*   **保存时格式化**: 当您保存文件时，代码将使用 Prettier 自动格式化。
+*   **ESLint 自动修复**: ESLint 中可自动修复的问题将在保存时得到解决。
 
-Ensure you have the [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) VS Code extensions installed for this to work.
+请确保您已安装 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) 和 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) VS Code 扩展，以便此功能正常工作。
 
-## Contributing
+## 🤝 参与贡献
 
-Feel free to open issues or submit pull requests on [GitHub](https://github.com/brahmachen/ts-mock-generator).
+欢迎在 [GitHub](https://github.com/brahmachen/ts-mock-generator) 上提交问题 (issues) 或拉取请求 (pull requests)。
 
-## License
+## 📄 许可证
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+本项目基于 MIT 许可证 - 详情请参阅 [LICENSE](LICENSE) 文件。
