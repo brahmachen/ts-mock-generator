@@ -4,6 +4,14 @@
   "displayName": "TS Mock Generator",
   "description": "%extension.description%",
   "version": "1.0.1",
+  "bin": {
+    "ts-mock-gen": "./out/src/cli/index.js"
+  },
+  "files": [
+    "out",
+    "package.nls.json",
+    "package.nls.zh-cn.json"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/brahmachen/ts-mock-generator.git"
@@ -107,6 +115,8 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^9.5.1",
+    "commander": "^14.0.2",
+    "dotenv": "^17.2.3",
     "openai": "^4.86.2",
     "ts-json-schema-generator": "^2.3.0",
     "vscode-nls": "^5.2.0"

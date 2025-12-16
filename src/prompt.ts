@@ -16,7 +16,7 @@ const systemPrompt =
   "请生成符合提供的JSON Schema的Faker.js数据生成代码，" +
   "要求为：" +
   "1. 生成CommonJS格式模块" +
-  "2. 包含完整Faker初始化" +
+  "2. 包含完整Faker初始化，请使用 const { faker } = require('@faker-js/faker/locale/zh_CN') 的方式引入中文包" +
   "3. 使用fakerjs中文的api" +
   "4. 只返回代码，不用返回多余内容，取到返回值后是直接写到js文件里的" +
   "5. 不要使用markdown格式，直接返回代码字符串" +
